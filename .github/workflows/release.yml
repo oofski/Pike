@@ -8,6 +8,8 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - claude/charming-meitner-4a1lu2
   workflow_dispatch:
 
 permissions:
@@ -16,6 +18,10 @@ permissions:
 jobs:
   build:
     name: Build (${{ matrix.os }})
+    # Tag pushes and manual dispatch always build & publish. Plain branch pushes
+    # only build when the commit message contains "[release]" so the heavy
+    # cross-platform release job doesn't run on every commit.
+    if: ${{ github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[release]') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
     strategy:
