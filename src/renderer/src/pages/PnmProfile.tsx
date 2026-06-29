@@ -27,7 +27,7 @@ import { NotesList } from '@/components/NotesList'
 import { VoteTally } from '@/components/VoteTally'
 import { PNM_STATUSES, STATUS_META } from '@shared/branding'
 import { cn, formatDate } from '@/lib/utils'
-import type { Pnm, PnmStatus, Rating, VoteTally as VoteTallyType } from '@shared/types'
+import type { EventType, Pnm, PnmStatus, Rating, VoteTally as VoteTallyType } from '@shared/types'
 
 export default function PnmProfilePage(): JSX.Element {
   const { id = '' } = useParams()
@@ -319,21 +319,27 @@ export default function PnmProfilePage(): JSX.Element {
               <Spinner />
             ) : eventsQ.data && eventsQ.data.length > 0 ? (
               <div className="space-y-2">
-                {eventsQ.data.map((e) => (
-                  <div
-                    key={e.id}
-                    className="flex items-center justify-between rounded-xl border border-white/5 bg-ink-950/40 p-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <CalendarCheck size={16} className="text-gold-500" />
-                      <div>
-                        <div className="text-sm font-medium text-ink-50">{e.event_title || 'Event'}</div>
-                        <div className="text-xs text-ink-400">{formatDate(e.signed_in_at)}</div>
+                {eventsQ.data.map((e) => {
+                  // The /pnms/:id/events endpoint returns `title`/`type` directly.
+                  const row = e as typeof e & { title?: string; type?: EventType }
+                  const title = row.event_title || row.title || 'Event'
+                  const type = row.event_type || row.type
+                  return (
+                    <div
+                      key={e.id}
+                      className="flex items-center justify-between rounded-xl border border-white/5 bg-ink-950/40 p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <CalendarCheck size={16} className="text-gold-500" />
+                        <div>
+                          <div className="text-sm font-medium text-ink-50">{title}</div>
+                          <div className="text-xs text-ink-400">{formatDate(e.signed_in_at)}</div>
+                        </div>
                       </div>
+                      {type && <EventBadge type={type} />}
                     </div>
-                    {e.event_type && <EventBadge type={e.event_type} />}
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             ) : (
               <p className="text-sm text-ink-400">Hasn&apos;t signed in to any events yet.</p>

@@ -43,7 +43,7 @@ export default function PnmsPage(): JSX.Element {
 
   const params = useMemo(() => {
     const p: Record<string, string> = {}
-    if (search.trim()) p.search = search.trim()
+    if (search.trim()) p.q = search.trim()
     if (status) p.status = status
     if (rating) p.rating = rating
     if (source) p.source = source

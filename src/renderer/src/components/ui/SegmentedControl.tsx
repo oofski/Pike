@@ -1,4 +1,3 @@
-import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function SegmentedControl({
@@ -7,7 +6,7 @@ export function SegmentedControl({
   onChange,
   className
 }: {
-  options: { value: string; label: string; icon?: LucideIcon }[]
+  options: { value: string; label: string; icon?: React.ReactNode }[]
   value: string
   onChange: (v: string) => void
   className?: string
@@ -22,7 +21,6 @@ export function SegmentedControl({
     >
       {options.map((opt) => {
         const isActive = opt.value === value
-        const Icon = opt.icon
         return (
           <button
             key={opt.value}
@@ -38,7 +36,9 @@ export function SegmentedControl({
                 : 'text-ink-400 hover:bg-white/5 hover:text-ink-100'
             )}
           >
-            {Icon && <Icon size={15} className={cn(isActive ? 'text-gold-300' : 'text-ink-400')} />}
+            {opt.icon && (
+              <span className={cn('inline-flex', isActive ? 'text-gold-300' : 'text-ink-400')}>{opt.icon}</span>
+            )}
             <span>{opt.label}</span>
           </button>
         )
