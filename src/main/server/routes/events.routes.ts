@@ -101,6 +101,10 @@ eventsRouter.patch('/:id', requireRole('admin', 'rush_chair'), (req, res) => {
 })
 
 eventsRouter.delete('/:id', requireRole('admin', 'rush_chair'), (req, res) => {
-  getDb().prepare('DELETE FROM events WHERE id = ?').run(req.params.id)
+  const info = getDb().prepare('DELETE FROM events WHERE id = ?').run(req.params.id)
+  if (info.changes === 0) {
+    res.status(404).json({ error: 'Event not found' })
+    return
+  }
   res.json({ ok: true })
 })

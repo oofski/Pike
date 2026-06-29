@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "name": "pike-rush-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local Mac iMessage bridge for the PIKE Rush app — polls the app for pending texts and sends them via Messages.app.",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -127,9 +127,13 @@ votingRouter.post('/session/decide', requireRole('admin', 'rush_chair'), (req, r
     res.status(400).json({ error: 'pnm_id and status (accepted|rejected) required' })
     return
   }
-  getDb()
+  const info = getDb()
     .prepare("UPDATE pnms SET status = ?, updated_at = datetime('now') WHERE id = ?")
     .run(status, pnmId)
+  if (info.changes === 0) {
+    res.status(404).json({ error: 'PNM not found' })
+    return
+  }
   res.json({ ok: true })
 })
 
@@ -144,6 +148,11 @@ votesRouter.post('/', (req, res) => {
   const { pnm_id, decision } = (req.body || {}) as CastVoteInput
   if (!pnm_id || !['yes', 'no', 'abstain'].includes(decision)) {
     res.status(400).json({ error: 'pnm_id and a valid decision are required' })
+    return
+  }
+  const pnm = getDb().prepare('SELECT id FROM pnms WHERE id = ?').get(pnm_id)
+  if (!pnm) {
+    res.status(404).json({ error: 'PNM not found' })
     return
   }
   getDb()

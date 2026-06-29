@@ -125,6 +125,8 @@ export const api = {
     update: (id: string, input: Partial<Pnm>) => request<Pnm>(`/api/pnms/${id}`, { method: 'PATCH', body: input }),
     remove: (id: string) => request<{ ok: true }>(`/api/pnms/${id}`, { method: 'DELETE' }),
     bulk: (input: BulkPnmInput) => request<BulkPnmResult>('/api/pnms/bulk', { method: 'POST', body: input }),
+    importSheet: (url: string) =>
+      request<{ csv: string }>('/api/pnms/import-sheet', { method: 'POST', body: { url } }),
     uploadPhoto: (id: string, file: File) => {
       const form = new FormData()
       form.append('photo', file)

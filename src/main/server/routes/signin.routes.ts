@@ -61,9 +61,13 @@ signinRouter.post('/', requireAuth, requireRole('admin', 'rush_chair'), (req, re
 
 // Close a session
 signinRouter.post('/:id/close', requireAuth, requireRole('admin', 'rush_chair'), (req, res) => {
-  getDb()
+  const info = getDb()
     .prepare("UPDATE sign_in_sessions SET is_open = 0, closed_at = datetime('now') WHERE id = ?")
     .run(req.params.id)
+  if (info.changes === 0) {
+    res.status(404).json({ error: 'Sign-in session not found' })
+    return
+  }
   res.json({ ok: true })
 })
 

@@ -22,7 +22,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        'flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-garnet-700 to-garnet-500 font-bold text-gold-100',
+        'flex shrink-0 select-none items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-garnet-700 to-garnet-500 font-bold leading-none text-gold-100 ring-1 ring-white/10',
         className
       )}
       style={{ width: size, height: size, fontSize: size * 0.36 }}

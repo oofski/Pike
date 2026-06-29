@@ -20,9 +20,13 @@ messagesRouter.patch('/:id', requireBridgeKey, (req, res) => {
     res.status(400).json({ error: 'status must be sent or failed' })
     return
   }
-  getDb()
+  const info = getDb()
     .prepare("UPDATE messages SET status = ?, sent_at = datetime('now') WHERE id = ?")
     .run(status, req.params.id)
+  if (info.changes === 0) {
+    res.status(404).json({ error: 'Message not found' })
+    return
+  }
   res.json({ ok: true })
 })
 

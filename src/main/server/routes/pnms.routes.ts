@@ -5,6 +5,7 @@ import fs from 'node:fs'
 import { getDb, genId, photosDir } from '../db'
 import { requireAuth, requireRole } from '../auth'
 import { normalizePhone, isValidPhone } from '../util'
+import { fetchSheetCsv, SheetUrlError, SheetFetchError } from '../services/sheets'
 import type { BulkPnmInput, CreatePnmInput, PnmStatus, Rating } from '@shared/types'
 
 export const pnmsRouter = Router()
@@ -67,6 +68,10 @@ pnmsRouter.post('/', requireRole('admin', 'rush_chair'), (req, res) => {
   const body = (req.body || {}) as CreatePnmInput
   if (!body.first_name || !body.last_name || !body.phone) {
     res.status(400).json({ error: 'first_name, last_name and phone are required' })
+    return
+  }
+  if (!isValidPhone(body.phone)) {
+    res.status(400).json({ error: 'Please enter a valid 10-digit phone number' })
     return
   }
   const phone = normalizePhone(body.phone)
@@ -139,6 +144,28 @@ pnmsRouter.post('/bulk', requireRole('admin', 'rush_chair'), (req, res) => {
   res.json({ inserted, duplicates, invalid, inserted_ids: insertedIds })
 })
 
+// ---- Import from a Google Sheets share URL (server-side fetch as CSV) ------
+// The renderer can't fetch docs.google.com directly (CORS), so we convert the
+// share/edit URL to its CSV-export form and fetch it here, returning raw CSV
+// for the renderer to parse + preview before a /bulk import.
+pnmsRouter.post('/import-sheet', requireRole('admin', 'rush_chair'), async (req, res) => {
+  const url = (req.body || {}).url
+  try {
+    const csv = await fetchSheetCsv(url)
+    res.json({ csv })
+  } catch (err) {
+    if (err instanceof SheetUrlError) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    if (err instanceof SheetFetchError) {
+      res.status(502).json({ error: err.message })
+      return
+    }
+    res.status(502).json({ error: 'Failed to import Google Sheet' })
+  }
+})
+
 // ---- Single profile -------------------------------------------------------
 pnmsRouter.get('/:id', (req, res) => {
   const pnm = getDb().prepare('SELECT * FROM pnms WHERE id = ?').get(req.params.id)
@@ -191,7 +218,11 @@ pnmsRouter.patch('/:id', requireRole('admin', 'rush_chair', 'brother'), (req, re
 })
 
 pnmsRouter.delete('/:id', requireRole('admin'), (req, res) => {
-  getDb().prepare('DELETE FROM pnms WHERE id = ?').run(req.params.id)
+  const info = getDb().prepare('DELETE FROM pnms WHERE id = ?').run(req.params.id)
+  if (info.changes === 0) {
+    res.status(404).json({ error: 'PNM not found' })
+    return
+  }
   const dir = path.join(photosDir(), req.params.id)
   fs.rmSync(dir, { recursive: true, force: true })
   res.json({ ok: true })
@@ -236,6 +267,11 @@ pnmsRouter.post('/:id/notes', (req, res) => {
   const content = (req.body?.content || '').toString().trim()
   if (!content) {
     res.status(400).json({ error: 'Note content is required' })
+    return
+  }
+  const pnm = getDb().prepare('SELECT id FROM pnms WHERE id = ?').get(req.params.id)
+  if (!pnm) {
+    res.status(404).json({ error: 'PNM not found' })
     return
   }
   const id = genId()

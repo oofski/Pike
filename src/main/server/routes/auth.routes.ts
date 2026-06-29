@@ -75,7 +75,11 @@ authRouter.delete('/users/:id', requireAuth, requireRole('admin'), (req, res) =>
     res.status(400).json({ error: 'You cannot delete your own account' })
     return
   }
-  getDb().prepare('DELETE FROM users WHERE id = ?').run(req.params.id)
+  const info = getDb().prepare('DELETE FROM users WHERE id = ?').run(req.params.id)
+  if (info.changes === 0) {
+    res.status(404).json({ error: 'User not found' })
+    return
+  }
   res.json({ ok: true })
 })
 
