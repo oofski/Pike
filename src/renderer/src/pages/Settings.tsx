@@ -171,7 +171,7 @@ function BridgeCard({ info }: { info: ServerInfo | null }): JSX.Element {
             <KeyRound size={15} className="text-gold-500" /> Setup steps
           </div>
           <ol className="list-decimal space-y-1 pl-5 text-xs leading-relaxed text-ink-400">
-            <li>On a Mac signed in to iMessage, download the bridge folder and run <code className="text-gold-300">npm install</code>.</li>
+            <li>On a Mac signed in to iMessage, download the bridge folder (no <code className="text-gold-300">npm install</code> needed — it has zero dependencies).</li>
             <li>
               Copy <code className="text-gold-300">.env.example</code> to <code className="text-gold-300">.env</code> and
               paste the URL and key above.
