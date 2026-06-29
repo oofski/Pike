@@ -1,0 +1,14 @@
+node_modules/
+out/
+release/
+dist/
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+coverage/
+*.tsbuildinfo
+dev-app-update.yml

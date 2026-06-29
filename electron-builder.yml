@@ -1,0 +1,61 @@
+appId: edu.vanderbilt.pikesigma.rush
+productName: PIKE Rush
+copyright: Copyright © 2026 Pi Kappa Alpha — Sigma Chapter, Vanderbilt
+directories:
+  buildResources: build
+  output: release
+files:
+  - out/**
+  - package.json
+  - "!**/.vscode/*"
+  - "!src/*"
+  - "!electron.vite.config.{js,ts,mjs,cjs}"
+  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+asarUnpack:
+  - "**/node_modules/better-sqlite3/**"
+  - resources/**
+extraResources:
+  - from: resources
+    to: resources
+    filter:
+      - "**/*"
+win:
+  executableName: PIKE Rush
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: ${productName}-${version}-Setup.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
+  createDesktopShortcut: always
+  shortcutName: PIKE Rush
+mac:
+  category: public.app-category.productivity
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  hardenedRuntime: false
+  gatekeeperAssess: false
+  identity: null
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+linux:
+  target:
+    - AppImage
+  maintainer: Pi Kappa Alpha Sigma Chapter
+  category: Office
+  artifactName: ${productName}-${version}.${ext}
+publish:
+  provider: github
+  owner: oofski
+  repo: Pike
+  releaseType: release

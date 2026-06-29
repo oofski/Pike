@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-950 text-ink-50 antialiased;
+  margin: 0;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+/* App background — subtle garnet glow */
+.app-bg {
+  background:
+    radial-gradient(1100px 520px at 12% -8%, rgba(123, 17, 19, 0.35), transparent 55%),
+    radial-gradient(900px 480px at 100% 0%, rgba(201, 162, 39, 0.08), transparent 50%),
+    #0a0b10;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-ink-700 rounded-full;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-ink-700;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-white/5 bg-ink-900/70 shadow-card backdrop-blur;
+  }
+  .input {
+    @apply w-full rounded-lg border border-ink-700 bg-ink-950/60 px-3 py-2 text-sm text-ink-50
+      placeholder:text-ink-400 outline-none transition focus:border-gold-500/70 focus:ring-1 focus:ring-gold-500/30;
+  }
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink-400;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold
+      transition disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-br from-garnet-600 to-garnet-500 text-white shadow-glow hover:from-garnet-500 hover:to-garnet-400;
+  }
+  .btn-gold {
+    @apply btn bg-gradient-to-br from-gold-500 to-gold-400 text-ink-950 hover:from-gold-400 hover:to-gold-300;
+  }
+  .btn-ghost {
+    @apply btn border border-ink-700 bg-transparent text-ink-100 hover:bg-white/5;
+  }
+}
+
+/* FullCalendar dark theming */
+.fc {
+  --fc-border-color: rgba(255, 255, 255, 0.07);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: rgba(255, 255, 255, 0.03);
+  --fc-today-bg-color: rgba(201, 162, 39, 0.08);
+  --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
+}
+.fc .fc-toolbar-title {
+  @apply text-lg font-semibold text-ink-50;
+}
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  @apply text-ink-200 no-underline;
+}
+.fc .fc-button {
+  @apply border-ink-700 bg-ink-800 text-ink-100 capitalize shadow-none;
+  background-image: none;
+}
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  @apply bg-garnet-600 border-garnet-600 text-white;
+}
+.fc-event {
+  @apply cursor-pointer border-0;
+}
