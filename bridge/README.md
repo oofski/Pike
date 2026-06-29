@@ -65,7 +65,7 @@ Desktop.)
 
    ```
    RUSHMANAGER_API_KEY=paste_the_key_from_Settings_here
-   RUSHMANAGER_API_URL=http://192.168.1.42:5179
+   RUSHMANAGER_API_URL=http://192.168.1.42:47600
    ```
 
    - **`RUSHMANAGER_API_KEY`** — the bridge API key shown on the Settings page.
@@ -102,7 +102,7 @@ Desktop.)
 
    ```
    [3:14:07 PM] PIKE Rush iMessage bridge starting…
-   [3:14:07 PM] API URL: http://192.168.1.42:5179
+   [3:14:07 PM] API URL: http://192.168.1.42:47600
    [3:14:07 PM] Polling every 5s. Leave this Terminal window open while sending.
    ```
 
