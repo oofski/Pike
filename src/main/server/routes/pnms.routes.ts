@@ -199,6 +199,23 @@ pnmsRouter.patch('/:id', requireRole('admin', 'rush_chair', 'brother'), (req, re
     req.user!.role === 'brother'
       ? (['internal_rating'] as const)
       : (['first_name', 'last_name', 'phone', 'email', 'status', 'internal_rating', 'photo_url', 'notes'] as const)
+
+  // If the phone is being changed (chairs/admins only), validate it and guard against duplicates.
+  if (req.user!.role !== 'brother' && typeof body.phone === 'string') {
+    if (!isValidPhone(body.phone)) {
+      res.status(400).json({ error: 'Please enter a valid 10-digit phone number' })
+      return
+    }
+    const normalized = normalizePhone(body.phone)
+    const clash = getDb()
+      .prepare('SELECT id FROM pnms WHERE phone = ? AND id <> ?')
+      .get(normalized, req.params.id) as { id: string } | undefined
+    if (clash) {
+      res.status(409).json({ error: 'A PNM with that phone number already exists', id: clash.id })
+      return
+    }
+  }
+
   const fields: string[] = []
   const values: unknown[] = []
   for (const key of allowed) {

@@ -21,6 +21,14 @@ extraResources:
     to: resources
     filter:
       - "**/*"
+  # Bundle the Mac iMessage bridge so installed users can find and run it from
+  # the app's resources directory (resources/bridge).
+  - from: bridge
+    to: resources/bridge
+    filter:
+      - "**/*"
+      - "!.env"
+      - "!node_modules/**"
 win:
   executableName: PIKE Rush
   target:

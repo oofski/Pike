@@ -10,9 +10,15 @@ export function PNMCard({ pnm, onClick }: { pnm: PnmWithStats; onClick?: () => v
   return (
     <button
       onClick={onClick}
-      className="card group flex flex-col items-center gap-2 p-5 text-center transition hover:border-gold-500/40 hover:shadow-glow"
+      className="card group flex flex-col items-center gap-2 p-5 text-center outline-none transition duration-200 hover:-translate-y-0.5 hover:border-gold-500/40 hover:shadow-glow focus-visible:border-gold-500/40 focus-visible:ring-2 focus-visible:ring-gold-500/30"
     >
-      <Avatar photo={pnm.photo_url} first={pnm.first_name} last={pnm.last_name} size={80} />
+      <Avatar
+        photo={pnm.photo_url}
+        first={pnm.first_name}
+        last={pnm.last_name}
+        size={80}
+        className="transition group-hover:ring-gold-500/40"
+      />
       <div className="mt-1 font-semibold text-ink-50">
         {pnm.first_name} {pnm.last_name}
       </div>

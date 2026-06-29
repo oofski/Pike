@@ -29,8 +29,11 @@ export function Navbar(): JSX.Element {
     <header className="sticky top-0 z-30 border-b border-white/5 bg-ink-950/80 backdrop-blur">
       <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-6 py-3">
         {/* Crest + wordmark */}
-        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold-500 to-gold-300 font-display text-lg font-bold text-ink-950">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="group flex items-center gap-3 rounded-lg outline-none focus-visible:ring-1 focus-visible:ring-gold-500/40"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gold-500 to-gold-300 font-display text-lg font-bold text-ink-950 shadow-glow transition group-hover:from-gold-400 group-hover:to-gold-200">
             {BRAND.greek}
           </div>
           <div className="hidden text-left sm:block">
@@ -49,8 +52,10 @@ export function Navbar(): JSX.Element {
               to={l.to}
               className={({ isActive }) =>
                 cn(
-                  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition',
-                  isActive ? 'bg-garnet-600/20 text-gold-300' : 'text-ink-300 hover:bg-white/5 hover:text-ink-50'
+                  'inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium outline-none transition focus-visible:ring-1 focus-visible:ring-gold-500/40',
+                  isActive
+                    ? 'bg-garnet-600/20 text-gold-300 ring-1 ring-inset ring-gold-500/20'
+                    : 'text-ink-200 hover:bg-white/5 hover:text-ink-50'
                 )
               }
             >
@@ -66,8 +71,8 @@ export function Navbar(): JSX.Element {
             to="/settings"
             className={({ isActive }) =>
               cn(
-                'rounded-lg p-2 transition',
-                isActive ? 'bg-white/5 text-gold-300' : 'text-ink-300 hover:bg-white/5 hover:text-ink-50'
+                'rounded-lg p-2 outline-none transition focus-visible:ring-1 focus-visible:ring-gold-500/40',
+                isActive ? 'bg-white/5 text-gold-300' : 'text-ink-200 hover:bg-white/5 hover:text-ink-50'
               )
             }
             title="Settings"
@@ -75,8 +80,8 @@ export function Navbar(): JSX.Element {
             <Settings size={18} />
           </NavLink>
 
-          <div className="flex items-center gap-2 rounded-lg border border-ink-700 py-1 pl-1 pr-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-garnet-600 to-garnet-500 text-xs font-bold text-gold-100">
+          <div className="flex items-center gap-2 rounded-lg border border-ink-700 py-1 pl-1 pr-2 transition hover:border-ink-700 hover:bg-white/5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-garnet-600 to-garnet-500 text-xs font-bold text-gold-100 ring-1 ring-white/10">
               {initials(user?.name?.split(' ')[0], user?.name?.split(' ')[1])}
             </div>
             <div className="hidden text-left lg:block">
@@ -88,8 +93,9 @@ export function Navbar(): JSX.Element {
                 logout()
                 navigate('/login')
               }}
-              className="ml-1 text-ink-400 transition hover:text-garnet-300"
+              className="ml-1 rounded p-0.5 text-ink-400 outline-none transition hover:text-garnet-300 focus-visible:ring-1 focus-visible:ring-garnet-400/50"
               title="Log out"
+              aria-label="Log out"
             >
               <LogOut size={16} />
             </button>

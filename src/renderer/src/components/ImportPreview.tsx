@@ -37,9 +37,10 @@ export function ImportPreview({ rows }: { rows: ImportRow[] }): JSX.Element {
               <tr
                 key={i}
                 className={cn(
-                  r.status === 'new' && 'bg-emerald-500/5',
-                  r.status === 'duplicate' && 'bg-gold-500/5',
-                  r.status === 'invalid' && 'bg-garnet-500/5'
+                  'transition-colors',
+                  r.status === 'new' && 'bg-emerald-500/5 hover:bg-emerald-500/10',
+                  r.status === 'duplicate' && 'bg-gold-500/5 hover:bg-gold-500/10',
+                  r.status === 'invalid' && 'bg-garnet-500/5 hover:bg-garnet-500/10'
                 )}
               >
                 <td className="px-4 py-2">

@@ -10,8 +10,8 @@ export function QRCodeDisplay({
   caption?: string
 }): JSX.Element {
   return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="rounded-2xl bg-white p-4 shadow-glow">
+    <div className="flex animate-fade-in flex-col items-center gap-3">
+      <div className="rounded-2xl bg-white p-4 shadow-glow ring-1 ring-gold-500/20">
         <QRCodeSVG value={url} size={size} level="M" fgColor="#7b1113" bgColor="#ffffff" />
       </div>
       {caption && <p className="text-sm text-ink-400">{caption}</p>}

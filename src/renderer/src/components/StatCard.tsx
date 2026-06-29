@@ -15,13 +15,13 @@ export function StatCard({
   accent?: 'gold' | 'garnet' | 'emerald' | 'blue'
 }): JSX.Element {
   const accents: Record<string, string> = {
-    gold: 'text-gold-400 bg-gold-500/10',
-    garnet: 'text-garnet-300 bg-garnet-500/15',
-    emerald: 'text-emerald-400 bg-emerald-500/10',
-    blue: 'text-blue-400 bg-blue-500/10'
+    gold: 'text-gold-400 bg-gold-500/10 ring-1 ring-gold-500/15',
+    garnet: 'text-garnet-300 bg-garnet-500/15 ring-1 ring-garnet-500/20',
+    emerald: 'text-emerald-400 bg-emerald-500/10 ring-1 ring-emerald-500/15',
+    blue: 'text-blue-400 bg-blue-500/10 ring-1 ring-blue-500/15'
   }
   return (
-    <div className="card flex items-center gap-4 p-5">
+    <div className="card flex items-center gap-4 p-5 transition duration-200 hover:border-white/10">
       {Icon && (
         <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center rounded-xl', accents[accent])}>
           <Icon size={22} />

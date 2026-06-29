@@ -21,7 +21,7 @@ export function BigScreenPNM({
   notes?: string[]
 }): JSX.Element {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-8 px-12">
+    <div className="flex h-full w-full animate-fade-in flex-col items-center justify-center gap-8 px-12">
       <div className="text-sm font-semibold uppercase tracking-[0.3em] text-gold-500">
         PNM {index + 1} of {total}
       </div>
@@ -30,7 +30,7 @@ export function BigScreenPNM({
         first={pnm.first_name}
         last={pnm.last_name}
         size={260}
-        className="ring-4 ring-gold-500/30"
+        className="shadow-glow ring-4 ring-gold-500/40"
       />
       <div className="text-center">
         <h1 className="font-display text-6xl font-bold text-ink-50">

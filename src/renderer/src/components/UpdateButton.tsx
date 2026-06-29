@@ -39,7 +39,7 @@ export function UpdateButton({ compact = false }: { compact?: boolean }): JSX.El
     return (
       <button
         onClick={install}
-        className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-gold-500 to-gold-400 px-3 py-1.5 text-sm font-semibold text-ink-950 transition hover:from-gold-400 hover:to-gold-300"
+        className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-br from-gold-500 to-gold-400 px-3 py-1.5 text-sm font-semibold text-ink-950 outline-none transition hover:from-gold-400 hover:to-gold-300 hover:shadow-glow focus-visible:ring-2 focus-visible:ring-gold-400/50 active:scale-[0.98]"
       >
         <RotateCw size={15} />
         Restart to update
@@ -83,8 +83,9 @@ export function UpdateButton({ compact = false }: { compact?: boolean }): JSX.El
       disabled={checking || downloading}
       title={version ? `PIKE Rush v${version}` : 'Check for updates'}
       className={cn(
-        'inline-flex items-center gap-2 rounded-lg border border-ink-700 px-3 py-1.5 text-sm font-medium text-ink-200 transition hover:bg-white/5 disabled:opacity-70',
-        status.state === 'error' && 'border-garnet-500/40 text-garnet-200'
+        'inline-flex items-center gap-2 rounded-lg border border-ink-700 px-3 py-1.5 text-sm font-medium text-ink-200 outline-none transition hover:bg-white/5 hover:text-ink-50 focus-visible:ring-1 focus-visible:ring-gold-500/40 disabled:cursor-not-allowed disabled:opacity-70',
+        status.state === 'error' && 'border-garnet-500/40 text-garnet-200',
+        status.state === 'not-available' && 'border-emerald-500/30 text-emerald-300'
       )}
     >
       <Icon size={15} className={cn((checking || downloading) && 'animate-spin')} />

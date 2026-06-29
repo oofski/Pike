@@ -12,9 +12,9 @@ export function EmptyState({
   action?: React.ReactNode
 }): JSX.Element {
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-ink-700 px-6 py-16 text-center">
+    <div className="flex animate-fade-in flex-col items-center justify-center rounded-2xl border border-dashed border-ink-700 px-6 py-16 text-center">
       {Icon && (
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-ink-800 text-gold-500">
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-ink-800 text-gold-500 ring-1 ring-gold-500/15">
           <Icon size={26} />
         </div>
       )}
